@@ -176,6 +176,8 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
 
+
+this is the next change
 # next in top of settings.py section change this
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
