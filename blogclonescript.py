@@ -101,10 +101,11 @@ DATABASES = {
 # next in models.py
 from django.db import models
 from django.utils import timezone
+# Create your models here.
 from django.urls import reverse
 
 class Post(models.Model):
-    author = models.ForeignKey('auth.User')
+    author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now())
@@ -123,8 +124,8 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-class Comment(model.Model):
-    post = models.ForeignKey('blog.Post',related_name='comments')
+class Comment(models.Model):
+    post = models.ForeignKey('blog.Post',related_name='comments',on_delete=models.CASCADE)
     author = models.CharField(max_length=200)
     create_date = models.DateTimeField(default=timezone.now())
     approved_comment = models.BooleanField(default=False)
@@ -138,6 +139,7 @@ class Comment(model.Model):
 
     def __str__(self):
         return self.text
+
 
 
 # next in forms.py
@@ -177,7 +179,7 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/'
 
 
-this is the next change
+
 # next in top of settings.py section change this
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -185,8 +187,40 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR =os.path.join(BASE_DIR,'blog/templates/blog')
 
 # next in blog create new folder (templates)
-# next inside template make 2 new folders(registration)
+# next inside template make 2 new folders(registration and blog)
 
+# next inside blog make base.html
+
+# next in views.py
+from django.shortcuts import render
+from django.views.generic import (TemplateView)
+
+class AboutView(TemplateView):
+    template_name = 'about.html'
+
+# make about.html under templates/blog
+
+# make urls.py under blog
+
+#in urls.py in mysite
+"""
+from django.contrib import admin
+from django.urls import path
+from django.conf.urls import url, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('',include('blogs')),
+]
+
+# in urls.blog
+from django.conf.urls import url
+from blog import views
+
+urlpatterns = [
+    url(r'^about/$',views.AboutView.as_view(),name='about'),
+
+]
 
 
 ###########################################################################################################################
